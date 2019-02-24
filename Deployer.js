@@ -1,7 +1,7 @@
 const { execSync } = require('child_process');
 const { format } = require('date-fns');
 const fs = require('fs');
-const APP_SECRET = 'abcd1234';
+const APP_SECRET = process.env.DEPLOYER_SECRET || 'abcd1234';
 
 module.exports = class Deployer {
 
