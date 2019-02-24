@@ -76,7 +76,7 @@ module.exports = class Deployer {
     }
 
     deployStack() {
-        const command = `echo docker stack deploy -c ${this.projectPath}/stack.yml ${this.project}`;
+        const command = `${__dirname}/deploy-docker.sh ${this.projectPath}`;
         this.recordLog(`Deploying stack with '${command}'`);
         execSync(command);
     }
