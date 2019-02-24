@@ -4,6 +4,7 @@ const fs = require('fs');
 const APP_SECRET = 'abcd1234';
 
 module.exports = class Deployer {
+
     constructor(options = {}) {
         this.project = options.project;
         this.projectPath = options.projectPath;
@@ -17,13 +18,17 @@ module.exports = class Deployer {
         console.log(`${timestamp}: ${this.project} -> ${message}`);
     }
 
+    decodeBase64(b64String) {
+        let buff = new Buffer.from(b64String, 'base64');
+        return buff.toString('ascii');
+    }
+
     getStackContents() {
         if (!this.jsonParams.stack) {
             return false;
         }
         this.recordLog(`Have a new stack`);
-        let buff = new Buffer.from(this.jsonParams.stack, 'base64');
-        return buff.toString('ascii');
+        return this.decodeBase64(this.jsonParams.stack);
     }
 
     getDotenvContents() {
@@ -31,8 +36,7 @@ module.exports = class Deployer {
             return false;
         }
         this.recordLog(`Have a new dotenv`);
-        let buff = new Buffer.from(this.jsonParams.dotenv, 'base64');
-        return buff.toString('ascii');
+        return this.decodeBase64(this.jsonParams.dotenv);
     }
 
     projectPathExists() {
